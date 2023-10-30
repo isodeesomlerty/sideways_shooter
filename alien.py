@@ -17,7 +17,7 @@ class Alien(Sprite):
 
         # Start each new alien near the top right of the screen.
         self.rect.x = self.settings.screen_width - self.rect.width
-        self.rect.y = self.rect.height
+        self.rect.y = self.settings.top_margin
 
         # Store the alien's exact vertical position.
         self.y = float(self.rect.y)
@@ -28,7 +28,7 @@ class Alien(Sprite):
         Return True if alien is at edge of screen.
         Leave a margin at the top for the scoreboard. 
         """
-        return ((self.rect.top <= self.sb.score_rect.height) or 
+        return ((self.rect.top <= self.settings.top_margin) or 
                 (self.rect.bottom >= self.settings.screen_height))
     
 

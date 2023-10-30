@@ -18,6 +18,9 @@ class Settings:
         # Alien settings
         self.fleet_lurch_speed = 10
 
+        # Top margin setting reserved for the scoreboard
+        self.top_margin = 75
+
         # How quickly the game speeds up
         self.speedup_scale = 1.5
         # How quickly the alien point values increase

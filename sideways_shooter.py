@@ -196,16 +196,16 @@ class SidewaysShooter:
         alien_width, alien_height = alien.rect.size
 
         current_x = self.settings.screen_width - 2 * alien_width
-        current_y = alien_height
+        current_y = self.settings.top_margin
         while current_x > (2 * alien_width):
             while current_y < (self.settings.screen_height - 2 * alien_height):
                 self._create_alien(current_x, current_y,
-                                   [-100, 100], [50, 50])
+                                   [0, 100], [50, 50])
                 current_y += 2 * alien_height
             
             # Finished a column; subtract x value, and reset y value.
             current_x -= 2 * alien_width
-            current_y = alien_height
+            current_y = self.settings.top_margin
     
 
     def _create_alien(self, x_position, y_position,

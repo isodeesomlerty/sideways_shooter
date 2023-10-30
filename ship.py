@@ -31,7 +31,7 @@ class Ship(Sprite):
         # Update the ship's y value, not the rect
         if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
             self.y += self.settings.ship_speed
-        if self.moving_up and self.rect.top > self.sb.score_rect.height:
+        if self.moving_up and self.rect.top > self.settings.top_margin:
             self.y -= self.settings.ship_speed
 
         # Update rect object from self.x.
