@@ -1,10 +1,12 @@
 import pygame
+from pygame.sprite import Sprite
 
-class Ship:
+class Ship(Sprite):
     """A class to manage the ship."""
 
     def __init__(self, ss_game):
         """Initialize the ship and set its starting position."""
+        super().__init__()
         self.screen = ss_game.screen
         self.screen_rect = ss_game.screen_rect
         self.settings = ss_game.settings
@@ -29,7 +31,7 @@ class Ship:
         # Update the ship's y value, not the rect
         if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
             self.y += self.settings.ship_speed
-        if self.moving_up and self.rect.top > 0:
+        if self.moving_up and self.rect.top > self.sb.score_rect.height:
             self.y -= self.settings.ship_speed
 
         # Update rect object from self.x.

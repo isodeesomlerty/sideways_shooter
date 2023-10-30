@@ -9,6 +9,7 @@ class Alien(Sprite):
         super().__init__()
         self.screen = ss_game.screen
         self.settings = ss_game.settings
+        self.sb = ss_game.sb
 
         # Load the alien image and set its rect attribute.
         self.image = pygame.image.load('images/alien.bmp')
@@ -23,8 +24,11 @@ class Alien(Sprite):
 
     
     def check_edges(self):
-        """Return True if alien is at edge of screen."""
-        return ((self.rect.top <= 0) or 
+        """
+        Return True if alien is at edge of screen.
+        Leave a margin at the top for the scoreboard. 
+        """
+        return ((self.rect.top <= self.sb.score_rect.height) or 
                 (self.rect.bottom >= self.settings.screen_height))
     
 

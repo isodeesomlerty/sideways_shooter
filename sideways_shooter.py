@@ -5,6 +5,7 @@ import pygame
 
 from settings import Settings
 from game_stats import GameStats
+from scoreboard import Scoreboard
 from button import Button
 from ship import Ship
 from bullet import Bullet
@@ -27,8 +28,9 @@ class SidewaysShooter:
         self.settings.screen_height = self.screen_rect.height
         pygame.display.set_caption("Sideways Shooter")
 
-        # Create an instance to store game statistics.
+        # Create a scoreboard and an instance to store game statistics.
         self.stats = GameStats(self)
+        self.sb = Scoreboard(self)
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -61,7 +63,7 @@ class SidewaysShooter:
         """Respond to keypresses and mouse events."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                sys.exit()
+                self._quit_game()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
@@ -70,6 +72,12 @@ class SidewaysShooter:
                 mouse_pos = pygame.mouse.get_pos()
                 if not self.game_active:
                     self._check_play_button(mouse_pos)
+
+
+    def _quit_game(self):
+        """Exit the game."""
+        self.stats.write_high_score()
+        sys.exit()
 
 
     def _check_play_button(self, mouse_pos):
@@ -84,6 +92,7 @@ class SidewaysShooter:
         if not self.game_active:
             # Reset the game statistics.
             self.stats.reset_stats()
+            self.sb.prep_images()
             self.game_active = True
 
             # Get rid of any remaining bullets and aliens.
@@ -105,7 +114,7 @@ class SidewaysShooter:
         elif event.key == pygame.K_DOWN:
             self.ship.moving_down = True
         elif event.key == pygame.K_q:
-            sys.exit()
+            self._quit_game()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
 
@@ -144,11 +153,26 @@ class SidewaysShooter:
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens,
                                                 True, True)
         
+        if collisions:
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)
+            self.sb.prep_score()
+            self.sb.check_high_score()
+        
         if not self.aliens:
             # Destroy existing bullets and create new fleet.
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
+
+            # Increase level.
+            self._new_level()
+
+
+    def _new_level(self):
+        """Start a new level."""
+        self.stats.level += 1
+        self.sb.prep_level()
 
 
     def _update_aliens(self):
@@ -162,7 +186,7 @@ class SidewaysShooter:
 
         # Look for aliens hitting the left of the screen.
         self._check_aliens_left()
-    
+        
 
     def _create_fleet(self):
         """Create the fleet of aliens."""
@@ -224,6 +248,7 @@ class SidewaysShooter:
         if self.stats.ships_left > 0:
             # Decrement ships_left.
             self.stats.ships_left -= 1
+            self.sb.prep_ships()
 
             # Get rid of any remaining bullets and aliens.
             self.bullets.empty()
@@ -238,6 +263,7 @@ class SidewaysShooter:
 
         else:
             self.game_active = False
+            pygame.mouse.set_visible(True)
 
 
     def _check_aliens_left(self):
@@ -256,6 +282,9 @@ class SidewaysShooter:
             bullet.draw_bullet()
         self.ship.blitme()
         self.aliens.draw(self.screen)
+
+        # Draw the score information.
+        self.sb.show_score()
 
         # Draw the Play button if the game is inactive.
         if not self.game_active:
