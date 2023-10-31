@@ -224,10 +224,29 @@ class SidewaysShooter:
         new_alien = Alien(self)
         new_alien.y = y_position
         new_alien.rect.x = x_position + random_x
-        new_alien.rect.y = y_position + random_y
+
+        if self._check_spawn_point(y_position, random_y, new_alien.rect.height):
+            new_alien.rect.y = y_position + random_y
+        else:
+            return
+        
         self.aliens.add(new_alien)
 
     
+    def _check_spawn_point(self, y_position, random_y, alien_height, 
+                           safety_margin_top=50,
+                           safety_margin_bottom=50):
+        """Check if the spawn point is too close to the top or bottom."""
+        if ((y_position + random_y <= 
+             self.settings.top_margin + safety_margin_top) 
+            or
+            (y_position + random_y + alien_height >= 
+             self.settings.screen_height - safety_margin_bottom)):
+            return False
+        else:
+            return True
+
+
     def _check_fleet_edges(self):
         """Respond appropriately if any aliens have reached an edge."""
         for alien in self.aliens.sprites():
