@@ -12,8 +12,8 @@ The goal is to swiftly shoot and dodge incoming alien ships, survive through pro
 
 ## Installation
 Before you can play Sideways Shooter, you need to set up a few things:  
-**Python:** Make sure you have [Python](python.org) installed on your computer.  
-**Pygame:** Sideways Shooter uses [Pygame](pygame.org). Install Pygame by running pip install pygame in your terminal or command prompt.  
+**Python:** Make sure you have [Python](https://www.python.org) installed on your computer.  
+**Pygame:** Sideways Shooter uses [Pygame](https://www.pygame.org). Install Pygame by running pip install pygame in your terminal or command prompt.  
 **Clone or Download:** Clone this repository to your local machine or simply download the source code.  
 **Run the Game:** Navigate to the game directory in your terminal or command prompt and run the script with Python **sideways_shooter.py**.
 
