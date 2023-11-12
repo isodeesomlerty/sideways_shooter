@@ -3,6 +3,8 @@ Sideways Shooter is a dynamic, fast-paced arcade-style game built using Python a
 In this game, players control a spaceship navigating through a treacherous field of randomly-spawned aliens.  
 The goal is to swiftly shoot and dodge incoming alien ships, survive through progressively challenging levels, and score as highly as possible.
 
+![Sideways Shooter Game](images/Sideways%20Shooter%20Poster.png)
+
 ## How to Play
 **Start the Game:** Run the game, and click the "Play" button on the screen to start.  
 **Move Your Ship:** Use the UP and DOWN arrow keys to move your spaceship vertically.  
